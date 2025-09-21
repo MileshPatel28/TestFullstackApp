@@ -6,8 +6,21 @@ import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
+import { Button } from '@react-navigation/elements';
+import { useState } from 'react';
+
+
+
 
 export default function HomeScreen() {
+
+  const [counter,setCounter] = useState(0);
+
+  const onPress = () => {
+    setCounter(counter + 1);
+  }
+
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -21,8 +34,9 @@ export default function HomeScreen() {
         <ThemedText type="title">Clicking App!</ThemedText>
       </ThemedView>
 
-      <ThemedView>
-        
+      <ThemedView style={{ justifyContent: 'center' ,alignItems: 'center'}}>
+        <ThemedText>{counter}</ThemedText>
+        <Button onPressIn={onPress}>Click Me</Button>
       </ThemedView>
      
      
