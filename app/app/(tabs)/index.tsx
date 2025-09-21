@@ -1,13 +1,11 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
+import { Image } from 'expo-image';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
 import { Button } from '@react-navigation/elements';
 import { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 
 
 
@@ -16,7 +14,7 @@ export default function HomeScreen() {
 
   const [counter,setCounter] = useState(0);
 
-  const API_URL = "http://<IP>:3000" 
+  const API_URL = process.env.EXPO_PUBLIC_API_URL
 
   const onPress = async () => {
     const res = await fetch(`${API_URL}/counter`);
