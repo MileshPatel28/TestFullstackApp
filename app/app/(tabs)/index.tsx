@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 import { Button } from '@react-navigation/elements';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
@@ -16,9 +16,43 @@ export default function HomeScreen() {
 
   const [counter,setCounter] = useState(0);
 
-  const onPress = () => {
-    setCounter(counter + 1);
+  const API_URL = "http://<IP>:3000" 
+
+  const onPress = async () => {
+    const res = await fetch(`${API_URL}/counter`);
+    const json = await res.json();
+    
+    let newCounter = json.value + 1
+
+    try {
+      const res = fetch(`${API_URL}/counter`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({value: newCounter, timestamp: Date.now() })
+      })
+      const data = await (await res).json();
+      setCounter(data.value);
+      
+    } catch(e) {
+      console.log(e)
+    }
+
+    // setCounter(counter + 1);
   }
+
+  useEffect(() => {
+    const fetchCounter = async () => {
+      try {
+        const res = await fetch(`${API_URL}/counter`);
+        const json = await res.json();
+        setCounter(json.value)
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchCounter();
+  },[])
 
 
   return (
